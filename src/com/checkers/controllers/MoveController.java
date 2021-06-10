@@ -4,10 +4,14 @@ import com.checkers.classes.MoveType;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.Tile;
 
+import java.util.ArrayList;
+
 public class MoveController {
 
     private Pawn pawn;
     private Tile[][] board;
+//    public static Tile PREVIOUS_TILES[];
+    public static ArrayList <Tile> PREVIOUS_TILES = new ArrayList<>();
 
 
     public MoveController(Pawn pawn) {
@@ -16,6 +20,18 @@ public class MoveController {
     }
 
     public void showAvalibleMoves(int x, int y) {
+
+        if (pawn.getSelectedPawn() != null) {
+            if (pawn.getSelectedPawn() != pawn) {
+                hidePreviousFields();
+            }
+        }
+
+
+        pawn.setSelectedPawn(pawn);
+
+        System.out.println(pawn.getSelectedPawn() == pawn);
+
         System.out.println(pawn.getType());
         System.out.println(x + " | " + y);
 
@@ -31,6 +47,7 @@ public class MoveController {
 
             } else {
                 board[xLeftField][yField].showAvalibleField();
+                PREVIOUS_TILES.add(board[xLeftField][yField]);
             }
         }
         if (checkRightValueX(xRightField) && checkValueY(yField)) {
@@ -38,10 +55,12 @@ public class MoveController {
 
             } else {
                 board[xRightField][yField].showAvalibleField();
+                PREVIOUS_TILES.add(board[xRightField][yField]);
             }
         }
 
     }
+
 
     // Check if next avalible field are in Array index range
 
@@ -60,6 +79,10 @@ public class MoveController {
 
     // Check if tile has a pawn
 
-
+    public static void hidePreviousFields() {
+        for (Tile tile : PREVIOUS_TILES) {
+            tile.setTileColor(tile.getLight());
+        }
+    }
 
 }

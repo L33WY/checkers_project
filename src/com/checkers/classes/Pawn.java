@@ -55,4 +55,12 @@ public class Pawn extends StackPane {
     public Tile[][] getBoard() {
         return gameController.getBoard();
     }
+
+    public Pawn getSelectedPawn() {
+        return gameController.getSelectedPawn();
+    }
+
+    public void setSelectedPawn(Pawn pawn) {
+        gameController.setSelectedPawn(pawn);
+    }
 }

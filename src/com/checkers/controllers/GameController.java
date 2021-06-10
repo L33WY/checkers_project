@@ -20,6 +20,8 @@ public class GameController {
 
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
+    private Pawn selectedPawn = null;
+
     public GameController() {
         this.createContent();
     }
@@ -63,6 +65,7 @@ public class GameController {
         }
     }
 
+
     private Pawn createPawn(PawnType type, int x, int y) {
         Pawn pawn = new Pawn(type , x, y, this);
 
@@ -71,5 +74,13 @@ public class GameController {
 
     public Tile[][] getBoard() {
         return board;
+    }
+
+    public Pawn getSelectedPawn() {
+        return selectedPawn;
+    }
+
+    public void setSelectedPawn(Pawn selectedPawn) {
+        this.selectedPawn = selectedPawn;
     }
 }

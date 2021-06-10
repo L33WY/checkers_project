@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends Rectangle {
 
     private Pawn pawn;
+    private Boolean isLight;
 
     public boolean hasPawn() {
         return this.pawn != null;
@@ -16,8 +17,9 @@ public class Tile extends Rectangle {
         this.pawn = pawn;
     }
 
-    public Tile(boolean isLight, int x, int y) {
+    public Tile(Boolean isLight, int x, int y) {
         this.setTileParametrs();
+        this.isLight = isLight;
         this.setTileColor(isLight);
 
         relocate(x * GameController.TILE_SIZE, y * GameController.TILE_SIZE);
@@ -29,7 +31,11 @@ public class Tile extends Rectangle {
 
     }
 
-    private void setTileColor(boolean isLight) {
+    public Boolean getLight() {
+        return isLight;
+    }
+
+    public void setTileColor(boolean isLight) {
         if (isLight) {
             this.setFill(Color.rgb(210, 209, 209));
         } else {
@@ -42,7 +48,7 @@ public class Tile extends Rectangle {
     }
 
     public void showAvalibleField() {
-        setFill(Color.rgb(102, 178, 255));
+            setFill(Color.rgb(102, 178, 255));
     }
 
 }
