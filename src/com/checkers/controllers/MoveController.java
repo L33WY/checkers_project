@@ -7,10 +7,12 @@ import com.checkers.classes.Tile;
 public class MoveController {
 
     private Pawn pawn;
+    private Tile[][] board;
 
 
     public MoveController(Pawn pawn) {
         this.pawn = pawn;
+        this.board = pawn.getBoard();
     }
 
     public void showAvalibleMoves(int x, int y) {
@@ -25,13 +27,23 @@ public class MoveController {
         System.out.println(xRightField + " X " + yField);
 
         if (checkLeftValueX(xLeftField) && checkValueY(yField)) {
-            pawn.getBoard()[xLeftField][yField].showAvalibleField();
+            if (board[xLeftField][yField].hasPawn()){
+
+            } else {
+                board[xLeftField][yField].showAvalibleField();
+            }
         }
         if (checkRightValueX(xRightField) && checkValueY(yField)) {
-            pawn.getBoard()[xRightField][yField].showAvalibleField();
+            if (board[xRightField][yField].hasPawn()) {
+
+            } else {
+                board[xRightField][yField].showAvalibleField();
+            }
         }
 
     }
+
+    // Check if next avalible field are in Array index range
 
     private boolean checkLeftValueX(int xLeft) {
         if (xLeft < 0) {return false;}
@@ -45,5 +57,9 @@ public class MoveController {
         if (y > 7 || y < 0) {return false;}
         else return true;
     }
+
+    // Check if tile has a pawn
+
+
 
 }
