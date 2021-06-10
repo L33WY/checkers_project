@@ -64,9 +64,12 @@ public class GameController {
     }
 
     private Pawn createPawn(PawnType type, int x, int y) {
-        Pawn pawn = new Pawn(type , x, y);
+        Pawn pawn = new Pawn(type , x, y, this);
 
         return pawn;
     }
 
+    public Tile[][] getBoard() {
+        return board;
+    }
 }

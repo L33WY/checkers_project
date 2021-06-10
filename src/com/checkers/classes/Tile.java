@@ -40,4 +40,9 @@ public class Tile extends Rectangle {
     public Pawn getPawn() {
         return pawn;
     }
+
+    public void showAvalibleField() {
+        setFill(Color.rgb(102, 178, 255));
+    }
+
 }
