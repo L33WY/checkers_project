@@ -1,5 +1,6 @@
 package com.checkers.controllers;
 
+import com.checkers.classes.MoveType;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
@@ -45,7 +46,7 @@ public class GameController {
 
                 Pawn pawn = null;
 
-                if (y < 2 && (x + y) % 2 != 0) {
+                if (y <= 2 && (x + y) % 2 != 0) {
                     pawn = this.createPawn(PawnType.RED, x, y);
                 }
 
@@ -67,4 +68,5 @@ public class GameController {
 
         return pawn;
     }
+
 }

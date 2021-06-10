@@ -37,4 +37,7 @@ public class Tile extends Rectangle {
         }
     }
 
+    public Pawn getPawn() {
+        return pawn;
+    }
 }
