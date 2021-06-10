@@ -3,8 +3,9 @@ package com.checkers.controllers;
 import com.checkers.classes.MoveType;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.Tile;
-
 import java.util.ArrayList;
+
+import static com.checkers.controllers.GameController.TILE_SIZE;
 
 public class MoveController {
 
@@ -12,6 +13,7 @@ public class MoveController {
     private Tile[][] board;
 //    public static Tile PREVIOUS_TILES[];
     public static ArrayList <Tile> PREVIOUS_TILES = new ArrayList<>();
+    public static Pawn CURENT_PAWN;
 
 
     public MoveController(Pawn pawn) {
@@ -19,16 +21,18 @@ public class MoveController {
         this.board = pawn.getBoard();
     }
 
+    public MoveController() {
+    }
+
     public void showAvalibleMoves(int x, int y) {
 
-        if (pawn.getSelectedPawn() != null) {
-            if (pawn.getSelectedPawn() != pawn) {
-                hidePreviousFields();
-            }
+        if (pawn.getSelectedPawn() != pawn) {
+            hidePreviousFields();
         }
-
-
+        CURENT_PAWN = pawn;
         pawn.setSelectedPawn(pawn);
+
+        System.out.println(pawn.getSelectedPawn());
 
         System.out.println(pawn.getSelectedPawn() == pawn);
 
@@ -82,7 +86,18 @@ public class MoveController {
     public static void hidePreviousFields() {
         for (Tile tile : PREVIOUS_TILES) {
             tile.setTileColor(tile.getLight());
+            tile.setAvalible(false);
         }
+        PREVIOUS_TILES.clear();
     }
 
+    public void movePawn(Tile tile, Boolean isAvalible, int xField, int yField) {
+        if (isAvalible) {
+            tile.setPawn(CURENT_PAWN);
+
+            CURENT_PAWN.relocate(xField * TILE_SIZE, yField * TILE_SIZE);
+            CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
+            hidePreviousFields();
+        }
+    }
 }

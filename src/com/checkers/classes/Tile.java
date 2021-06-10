@@ -1,13 +1,16 @@
 package com.checkers.classes;
 
 import com.checkers.controllers.GameController;
+import com.checkers.controllers.MoveController;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.input.MouseEvent;
 
 public class Tile extends Rectangle {
 
     private Pawn pawn;
     private Boolean isLight;
+    private Boolean isAvalible = false;
 
     public boolean hasPawn() {
         return this.pawn != null;
@@ -17,12 +20,19 @@ public class Tile extends Rectangle {
         this.pawn = pawn;
     }
 
+    public void removePawn(){this.pawn = null;}
+
     public Tile(Boolean isLight, int x, int y) {
         this.setTileParametrs();
         this.isLight = isLight;
         this.setTileColor(isLight);
 
         relocate(x * GameController.TILE_SIZE, y * GameController.TILE_SIZE);
+
+        MoveController moveController = new MoveController();
+
+        setOnMouseClicked(event -> moveController.movePawn(this, this.isAvalible, x, y));
+
     }
 
     private void setTileParametrs() {
@@ -47,8 +57,18 @@ public class Tile extends Rectangle {
         return pawn;
     }
 
+
     public void showAvalibleField() {
             setFill(Color.rgb(102, 178, 255));
+            setAvalible(true);
     }
+
+    public void setAvalible(Boolean avalible) {
+        isAvalible = avalible;
+    }
+
+    // Interactive section
+
+
 
 }
