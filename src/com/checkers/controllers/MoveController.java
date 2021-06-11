@@ -94,9 +94,9 @@ public class MoveController {
     public void movePawn(Tile tile, Boolean isAvalible, int xField, int yField) {
         if (isAvalible) {
             tile.setPawn(CURENT_PAWN);
-
-            CURENT_PAWN.relocate(xField * TILE_SIZE, yField * TILE_SIZE);
             CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
+            CURENT_PAWN.setNewPosition(xField, yField);
+            CURENT_PAWN.relocate(xField * TILE_SIZE, yField * TILE_SIZE);
             hidePreviousFields();
         }
     }
