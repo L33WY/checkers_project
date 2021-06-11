@@ -21,6 +21,8 @@ public class GameController {
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
     private Pawn selectedPawn = null;
+    int testPawnNumber = 0;
+    int testRep = 0;
 
     public GameController() {
         this.createContent();
@@ -30,7 +32,9 @@ public class GameController {
     public Parent createContent() {
         Pane root = new Pane();
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        this.createBoard();
+        if (++ testRep == 1){
+            this.createBoard();
+        }
 
         root.getChildren().addAll(this.tileGroup, this.pawnGroup);
 
@@ -38,26 +42,32 @@ public class GameController {
     }
 
     private void createBoard() {
+        System.out.println("Powtorzenia petli : " + ++ testRep);
         for (int x = 0; x < HEIGHT; x++) {
             for (int y = 0; y < WIDTH; y++) {
+                System.out.println(x + " T " + y);
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
 
                 this.board[x][y] = tile;
 
                 this.tileGroup.getChildren().add(tile);
 
+
                 Pawn pawn = null;
 
                 if (y <= 2 && (x + y) % 2 != 0) {
                     pawn = this.createPawn(PawnType.RED, x, y);
+//                    System.out.println(test++);
                 }
 
                 if (y >= 5 && (x + y) % 2 != 0) {
                     pawn = this.createPawn(PawnType.GREEN, x, y);
+//                    System.out.println(test++);
                 }
 
                 if (pawn != null) {
                     tile.setPawn(pawn);
+                    System.out.println("Pionkik: " + ++ testPawnNumber);
                     this.pawnGroup.getChildren().add(pawn);
                 }
 
