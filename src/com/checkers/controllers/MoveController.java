@@ -1,10 +1,12 @@
 package com.checkers.controllers;
 
+import com.checkers.Main;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.Tile;
 import java.util.ArrayList;
 
 import static com.checkers.controllers.GameController.TILE_SIZE;
+
 
 
 public class MoveController {
@@ -122,6 +124,7 @@ public class MoveController {
                 if (targetTile.getPawn().getOldX() == xField+1 || targetTile.getPawn().getOldX() == xField-1) {
                     System.out.println("Usuwanie");
 
+                    CURENT_PAWN.getGameController().getPawnGroup().getChildren().remove(targetTile.getPawn());
                     targetTile.removePawn();
                 }
             }

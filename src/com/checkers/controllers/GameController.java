@@ -94,4 +94,8 @@ public class GameController {
         this.selectedPawn = selectedPawn;
     }
 
+    public Group getPawnGroup () {
+        return this.pawnGroup;
+    }
+
 }

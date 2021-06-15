@@ -85,4 +85,7 @@ public class Pawn extends StackPane {
         gameController.setSelectedPawn(pawn);
     }
 
+    public GameController getGameController() {
+        return gameController;
+    }
 }
