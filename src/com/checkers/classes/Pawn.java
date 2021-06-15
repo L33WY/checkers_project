@@ -72,6 +72,7 @@ public class Pawn extends StackPane {
         this.newY = newY;
     }
 
+
     public Tile[][] getBoard() {
         return gameController.getBoard();
     }
