@@ -1,6 +1,5 @@
 package com.checkers.controllers;
 
-import com.checkers.classes.MoveType;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
@@ -17,6 +16,7 @@ public class GameController {
 
     private Group tileGroup = new Group();
     private Group pawnGroup = new Group();
+//    static Group pawnGroup = new Group();
 
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
@@ -93,4 +93,5 @@ public class GameController {
     public void setSelectedPawn(Pawn selectedPawn) {
         this.selectedPawn = selectedPawn;
     }
+
 }
