@@ -48,7 +48,7 @@ public class MoveController {
         System.out.println("Lewy x: " + xLeftField + " y:  " + yField);
         System.out.println("Prawy X: " + xRightField + " y:  " + yField);
 
-        if (checkLeftValueX(xLeftField) && checkValueY(yField)) {
+        if (checkValueX(xLeftField) && checkValueY(yField)) {
             if (board[xLeftField][yField].hasPawn()){
                 validatePawn(xLeftField, yField, -1);
             } else {
@@ -56,7 +56,7 @@ public class MoveController {
                 PREVIOUS_TILES.add(board[xLeftField][yField]);
             }
         }
-        if (checkRightValueX(xRightField) && checkValueY(yField)) {
+        if (checkValueX(xRightField) && checkValueY(yField)) {
             if (board[xRightField][yField].hasPawn()) {
                 System.out.println("Walidacja");
                 validatePawn(xRightField, yField, +1);
@@ -68,15 +68,34 @@ public class MoveController {
 
     }
 
+    public void showAvalibleMoves(int x, int y, int xDirection) {
+
+        if (pawn.getSelectedPawn() != pawn) {
+            hidePreviousFields();
+        }
+        CURENT_PAWN = pawn;
+        pawn.setSelectedPawn(pawn);
+
+        int yField = y + pawn.getMoveDir();
+        int xField = x + xDirection;
+
+        if (checkValueX(xField) && checkValueY(yField)) {
+            if (board[xField][yField].hasPawn()) {
+                System.out.println("Walidacja");
+                validatePawn(xField, yField, +1);
+            } else {
+                board[xField][yField].showAvalibleField();
+                PREVIOUS_TILES.add(board[xField][yField]);
+            }
+        }
+
+    }
+
 
     // Check if next avalible field are in Array index range
 
-    private boolean checkLeftValueX(int xLeft) {
-        if (xLeft < 0) {return false;}
-        else return true;
-    }
-    private boolean checkRightValueX(int xRight) {
-        if (xRight > 7 || xRight < 0) {return false;}
+    private boolean checkValueX(int x) {
+        if (x > 7 || x < 0) {return false;}
         else return true;
     }
     private boolean checkValueY(int y) {
@@ -105,16 +124,15 @@ public class MoveController {
     }
 
     private void validatePawn(int x, int y, int xDirection) {
-        System.out.println(CURENT_PAWN.getType());
-        if (CURENT_PAWN.getType() != board[x][y].getPawn().getType()) {
+        if (checkValueX(x + xDirection) && checkValueY(y + CURENT_PAWN.getMoveDir())) {
+            if (CURENT_PAWN.getType() != board[x][y].getPawn().getType()) {
 
-            System.out.println("TEST X: " + x + xDirection + "TEST Y: " +  y + CURENT_PAWN.getMoveDir());
-            System.out.println(x + xDirection);
-            System.out.println(y + CURENT_PAWN.getMoveDir());
-            if (board[x + xDirection][y + CURENT_PAWN.getMoveDir()].hasPawn()) {
-                System.out.println("Next pionek zajety");
-            } else {
-                this.showAvalibleMoves(x, y);
+
+                if (board[x + xDirection][y + CURENT_PAWN.getMoveDir()].hasPawn()) {
+                    System.out.println("Next pionek zajety");
+                } else {
+                    this.showAvalibleMoves(x, y, xDirection);
+                }
             }
         }
     }
