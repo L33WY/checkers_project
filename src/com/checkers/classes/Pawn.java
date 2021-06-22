@@ -15,6 +15,7 @@ public class Pawn extends StackPane {
     private PawnType type;
     private final Ellipse pawn = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
     private GameController gameController;
+    private MoveController moveController;
     private int oldX, oldY, newX, newY;
     private boolean isKing = false;
 
@@ -36,7 +37,7 @@ public class Pawn extends StackPane {
 
         this.getChildren().addAll(this.pawn);
 
-        MoveController moveController = new MoveController(this);
+        this.moveController = new MoveController(this);
 
         this.setOnMouseClicked(event ->{
             moveController.showAvalibleMoves(this.oldX, this.oldY);
@@ -104,6 +105,10 @@ public class Pawn extends StackPane {
 
     public GameController getGameController() {
         return gameController;
+    }
+
+    public MoveController getMoveController() {
+        return moveController;
     }
 
     public Ellipse getPawn() {

@@ -22,7 +22,7 @@ public class King extends Pawn{
         this.setKing(true);
 
         this.setOnMouseClicked(event ->{
-            System.out.println("jest krolem");
+            this.getMoveController().showAvalibleKingMoves();
             });
 
     }

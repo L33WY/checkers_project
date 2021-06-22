@@ -101,6 +101,11 @@ public class MoveController {
 
     }
 
+    //Sow moves for king
+    public void showAvalibleKingMoves() {
+        System.out.println("test");
+    }
+
 
     // Check if next avalible field are in Array index range
 
@@ -199,4 +204,5 @@ public class MoveController {
             return true;
         } else return false;
     }
+
 }
