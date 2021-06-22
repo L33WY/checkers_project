@@ -155,13 +155,17 @@ public class MoveController {
 
             if (isReadyForKing() && (!CURENT_PAWN.isKing())) {
                 System.out.println("usuwanie pod krola");
+                //Creating new king pawn
                 King king = new King(CURENT_PAWN.getType(), CURENT_PAWN.getNewX(), CURENT_PAWN.getNewY(),
                         CURENT_PAWN.getGameController(), CURENT_PAWN.getOldX(), CURENT_PAWN.getOldY());
+                //Removing old pawn
                 king.getGameController().getPawnGroup().getChildren().remove(king.getBoard()[king.getOldX()][king.getOldY()].getPawn());
                 king.getBoard()[king.getOldX()][king.getOldY()].removePawn();
 
+                //Placing king pawn on board
                 CURENT_PAWN = king;
-
+                CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldX()].setPawn(king);
+                CURENT_PAWN.getGameController().getPawnGroup().getChildren().add(king);
 
                 System.out.println("koniec tworzenia krola");
             }
