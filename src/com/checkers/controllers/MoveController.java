@@ -101,9 +101,80 @@ public class MoveController {
 
     }
 
-    //Sow moves for king
-    public void showAvalibleKingMoves() {
-        System.out.println("test");
+    //Show moves for king
+    public void showAvalibleKingMoves(int oldX, int oldY) {
+
+        if (pawn.getSelectedPawn() != pawn) {
+            hidePreviousFields();
+        }
+        CURENT_PAWN = pawn;
+        pawn.setSelectedPawn(pawn);
+
+        System.out.println("OldX: " + CURENT_PAWN.getOldX());
+        System.out.println("OldY: " + CURENT_PAWN.getOldY());
+        System.out.println("NewX: " + CURENT_PAWN.getNewX());
+        System.out.println("NewY: " + CURENT_PAWN.getNewY());
+
+        int xLeft = oldX -1;
+        int xRight = oldX +1;
+
+
+        //Y TOP
+        for (int yTop = oldY+1; checkValueY(yTop); yTop++) {
+            //TOP LEFT
+            if (checkValueX(xLeft) && checkValueY(yTop)) {
+                if (board[xLeft][yTop].hasPawn()){
+//                    validatePawn(xLeftField, yField, -1);
+                    System.out.println("Pole zajete" + xLeft + yTop);
+                } else {
+                    board[xLeft][yTop].showAvalibleField();
+                    PREVIOUS_TILES.add(board[xLeft][yTop]);
+                }
+                xLeft--;
+            }
+
+            //TOP RIGHT
+            if (checkValueX(xRight) && checkValueY(yTop)) {
+                if (board[xRight][yTop].hasPawn()){
+//                    validatePawn(xLeftField, yField, -1);
+                    System.out.println("Pole zajete" + xRight + yTop);
+                } else {
+                    board[xRight][yTop].showAvalibleField();
+                    PREVIOUS_TILES.add(board[xRight][yTop]);
+                }
+                xRight++;
+            }
+        }
+
+        //Y BOTTOM
+        xLeft = oldX - 1;
+        xRight = oldX + 1;
+
+        for (int yBottom = oldY-1; checkValueY(yBottom); yBottom--) {
+            //BOTTOM LEFT
+            if (checkValueX(xLeft) && checkValueY(yBottom)) {
+                if (board[xLeft][yBottom].hasPawn()){
+//                    validatePawn(xLeftField, yField, -1);
+                    System.out.println("Pole zajete" + xLeft + yBottom);
+                } else {
+                    board[xLeft][yBottom].showAvalibleField();
+                    PREVIOUS_TILES.add(board[xLeft][yBottom]);
+                }
+                xLeft--;
+            }
+
+            //BOTTOM RIGHT
+            if (checkValueX(xRight) && checkValueY(yBottom)) {
+                if (board[xRight][yBottom].hasPawn()){
+//                    validatePawn(xLeftField, yField, -1);
+                    System.out.println("Pole zajete" + xRight + yBottom);
+                } else {
+                    board[xRight][yBottom].showAvalibleField();
+                    PREVIOUS_TILES.add(board[xRight][yBottom]);
+                }
+                xRight++;
+            }
+        }
     }
 
 
@@ -133,17 +204,8 @@ public class MoveController {
 
         if (isAvalible) {
             CURENT_PAWN.setNewPosition(xField, yField);
-            System.out.println("czy krol ready? " +  isReadyForKing());
-            System.out.println("OldX: " + CURENT_PAWN.getOldX());
-            System.out.println("OldY: " + CURENT_PAWN.getOldY());
-            System.out.println("NewX: " + CURENT_PAWN.getNewX());
-            System.out.println("NewY: " + CURENT_PAWN.getNewY());
 
-            System.out.println(CURENT_PAWN);
             tile.setPawn(CURENT_PAWN);
-            System.out.println("Old king values");
-            System.out.println(CURENT_PAWN.getOldX());
-            System.out.println(CURENT_PAWN.getOldY());
 
             CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
             CURENT_PAWN.setNewPosition(xField, yField);
