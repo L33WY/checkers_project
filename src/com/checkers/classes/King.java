@@ -2,6 +2,11 @@ package com.checkers.classes;
 
 import com.checkers.controllers.GameController;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
+import static com.checkers.controllers.GameController.TILE_SIZE;
 
 public class King extends Pawn{
 
@@ -11,7 +16,8 @@ public class King extends Pawn{
 
         this.setOldX(oldX);
         this.setOldY(oldY);
-        this.setKingColor();
+
+        this.setKingText();
 
         this.setKing(true);
 
@@ -21,12 +27,13 @@ public class King extends Pawn{
 
     }
 
-    private void setKingColor() {
-        if (this.getType() == PawnType.RED) {
-            this.getPawn().setFill(Color.GOLD);
-        } else {
-            this.getPawn().setFill(Color.GREEN);
-        }
+    private void setKingText() {
+        Text text = new Text("KING");
+        text.setTranslateX((TILE_SIZE * 0.3125 * 2) / 2.8) ;
+        text.setTranslateY((TILE_SIZE * 0.26 * 2) / 2);
+        text.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
+        text.setFill(Color.WHITE);
+        this.getChildren().addAll(text);
     }
 
 }
