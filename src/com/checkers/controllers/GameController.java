@@ -1,5 +1,6 @@
 package com.checkers.controllers;
 
+import com.checkers.classes.King;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
@@ -80,6 +81,10 @@ public class GameController {
         Pawn pawn = new Pawn(type , x, y, this);
 
         return pawn;
+    }
+
+    private void createKing(Pawn pawn) {
+        King king = new King(pawn);
     }
 
     public Tile[][] getBoard() {

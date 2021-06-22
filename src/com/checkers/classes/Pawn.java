@@ -14,8 +14,9 @@ public class Pawn extends StackPane {
 
     private PawnType type;
     private final Ellipse pawn = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
-    private final GameController gameController;
+    private GameController gameController;
     private int oldX, oldY, newX, newY;
+    private boolean isKing = false;
 
 
     public Pawn(PawnType type, int x, int y,GameController gameController) {
@@ -23,6 +24,8 @@ public class Pawn extends StackPane {
         this.gameController = gameController;
         this.oldX = x;
         this.oldY = y;
+        this.newX = x;
+        this.newY = y;
 
         relocate(x * TILE_SIZE, y * TILE_SIZE);
 
@@ -41,6 +44,11 @@ public class Pawn extends StackPane {
 
     }
 
+    public Pawn(Pawn pawn) {
+        System.out.println("typ pinka:" + this.type);
+    }
+
+
     private void setPawnColor() {
         if (this.type == PawnType.RED) {
             this.pawn.setFill(Color.RED);
@@ -57,21 +65,34 @@ public class Pawn extends StackPane {
         return type;
     }
 
-    public int getOldX() {
-        return oldX;
-    }
+    public int getOldX() { return oldX; }
 
     public int getOldY() {
         return oldY;
     }
 
+    public int getNewX() { return newX; }
+
+    public int getNewY() { return newY; }
+
     public void setNewPosition(int newX, int newY) {
-        this.oldX = newX;
-        this.oldY = newY;
+        this.oldX = this.newX;
+        this.oldY = this.newY;
         this.newX = newX;
         this.newY = newY;
     }
 
+    public void setOldX(int oldX) { this.oldX = oldX; }
+
+    public void setOldY(int oldY) { this.oldY = oldY; }
+
+    public void setNewX(int newX) { this.newX = newX; }
+
+    public void setNewY(int newY) { this.newY = newY; }
+
+    public boolean isKing() { return isKing; }
+
+    public void setKing(boolean king) { isKing = king; }
 
     public Tile[][] getBoard() {
         return gameController.getBoard();
@@ -87,5 +108,9 @@ public class Pawn extends StackPane {
 
     public GameController getGameController() {
         return gameController;
+    }
+
+    public Ellipse getPawn() {
+        return pawn;
     }
 }

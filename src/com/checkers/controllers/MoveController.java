@@ -1,8 +1,12 @@
 package com.checkers.controllers;
 
 import com.checkers.Main;
+import com.checkers.classes.King;
 import com.checkers.classes.Pawn;
+import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 import static com.checkers.controllers.GameController.TILE_SIZE;
@@ -36,9 +40,10 @@ public class MoveController {
         CURENT_PAWN = pawn;
         pawn.setSelectedPawn(pawn);
 
-        System.out.println(pawn.getSelectedPawn());
-
-        System.out.println(pawn.getSelectedPawn() == pawn);
+        System.out.println("OldX: " + CURENT_PAWN.getOldX());
+        System.out.println("OldY: " + CURENT_PAWN.getOldY());
+        System.out.println("NewX: " + CURENT_PAWN.getNewX());
+        System.out.println("NewY: " + CURENT_PAWN.getNewY());
 
         System.out.println(pawn.getType());
         System.out.println(x + " | " + y);
@@ -75,6 +80,12 @@ public class MoveController {
         }
         CURENT_PAWN = pawn;
         pawn.setSelectedPawn(pawn);
+
+        System.out.println("OldX: " + CURENT_PAWN.getOldX());
+        System.out.println("OldY: " + CURENT_PAWN.getOldY());
+        System.out.println("NewX: " + CURENT_PAWN.getNewX());
+        System.out.println("NewY: " + CURENT_PAWN.getNewY());
+
 
         int yField = y + pawn.getMoveDir();
         int xField = x + xDirection;
@@ -114,9 +125,27 @@ public class MoveController {
     }
 
     public void movePawn(Tile tile, Boolean isAvalible, int xField, int yField) {
-        if (isAvalible) {
+
+        if (isAvalible && (!CURENT_PAWN.isKing())) {
+            CURENT_PAWN.setNewPosition(xField, yField);
+            System.out.println("czy krol ready? " +  isReadyForKing());
+            System.out.println("OldX: " + CURENT_PAWN.getOldX());
+            System.out.println("OldY: " + CURENT_PAWN.getOldY());
+            System.out.println("NewX: " + CURENT_PAWN.getNewX());
+            System.out.println("NewY: " + CURENT_PAWN.getNewY());
+            if (isReadyForKing()) {
+                CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
+                CURENT_PAWN = new King(CURENT_PAWN);
+                System.out.println("Tets 3");
+            } else {
+                CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
+            }
+            System.out.println(CURENT_PAWN);
             tile.setPawn(CURENT_PAWN);
-            CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
+            System.out.println("Old king values");
+            System.out.println(CURENT_PAWN.getOldX());
+            System.out.println(CURENT_PAWN.getOldY());
+
             CURENT_PAWN.setNewPosition(xField, yField);
             CURENT_PAWN.relocate(xField * TILE_SIZE, yField * TILE_SIZE);
 
@@ -146,5 +175,17 @@ public class MoveController {
                 }
             }
         }
+    }
+
+
+    private boolean isReadyForKing() {
+        System.out.println("CURENT PAWN POSITION: " + CURENT_PAWN.getNewX() + CURENT_PAWN.getNewY());
+        System.out.println(PawnType.GREEN == CURENT_PAWN.getType());
+        if (CURENT_PAWN.getType() == PawnType.GREEN && CURENT_PAWN.getNewY() == 0) {
+            System.out.println("test1");
+            return true;
+        } if (CURENT_PAWN.getType() == PawnType.RED && CURENT_PAWN.getNewY() == 7) {
+            return true;
+        } else return false;
     }
 }
