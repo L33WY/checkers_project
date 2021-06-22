@@ -44,10 +44,6 @@ public class Pawn extends StackPane {
 
     }
 
-    public Pawn(Pawn pawn) {
-        System.out.println("typ pinka:" + this.type);
-    }
-
 
     private void setPawnColor() {
         if (this.type == PawnType.RED) {

@@ -126,26 +126,21 @@ public class MoveController {
 
     public void movePawn(Tile tile, Boolean isAvalible, int xField, int yField) {
 
-        if (isAvalible && (!CURENT_PAWN.isKing())) {
+        if (isAvalible) {
             CURENT_PAWN.setNewPosition(xField, yField);
             System.out.println("czy krol ready? " +  isReadyForKing());
             System.out.println("OldX: " + CURENT_PAWN.getOldX());
             System.out.println("OldY: " + CURENT_PAWN.getOldY());
             System.out.println("NewX: " + CURENT_PAWN.getNewX());
             System.out.println("NewY: " + CURENT_PAWN.getNewY());
-            if (isReadyForKing()) {
-                CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
-                CURENT_PAWN = new King(CURENT_PAWN);
-                System.out.println("Tets 3");
-            } else {
-                CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
-            }
+
             System.out.println(CURENT_PAWN);
             tile.setPawn(CURENT_PAWN);
             System.out.println("Old king values");
             System.out.println(CURENT_PAWN.getOldX());
             System.out.println(CURENT_PAWN.getOldY());
 
+            CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldY()].removePawn();
             CURENT_PAWN.setNewPosition(xField, yField);
             CURENT_PAWN.relocate(xField * TILE_SIZE, yField * TILE_SIZE);
 
@@ -156,6 +151,19 @@ public class MoveController {
                     CURENT_PAWN.getGameController().getPawnGroup().getChildren().remove(targetTile.getPawn());
                     targetTile.removePawn();
                 }
+            }
+
+            if (isReadyForKing() && (!CURENT_PAWN.isKing())) {
+                System.out.println("usuwanie pod krola");
+                King king = new King(CURENT_PAWN.getType(), CURENT_PAWN.getNewX(), CURENT_PAWN.getNewY(),
+                        CURENT_PAWN.getGameController(), CURENT_PAWN.getOldX(), CURENT_PAWN.getOldY());
+                king.getGameController().getPawnGroup().getChildren().remove(king.getBoard()[king.getOldX()][king.getOldY()].getPawn());
+                king.getBoard()[king.getOldX()][king.getOldY()].removePawn();
+
+                CURENT_PAWN = king;
+
+
+                System.out.println("koniec tworzenia krola");
             }
 
             hidePreviousFields();
@@ -182,7 +190,6 @@ public class MoveController {
         System.out.println("CURENT PAWN POSITION: " + CURENT_PAWN.getNewX() + CURENT_PAWN.getNewY());
         System.out.println(PawnType.GREEN == CURENT_PAWN.getType());
         if (CURENT_PAWN.getType() == PawnType.GREEN && CURENT_PAWN.getNewY() == 0) {
-            System.out.println("test1");
             return true;
         } if (CURENT_PAWN.getType() == PawnType.RED && CURENT_PAWN.getNewY() == 7) {
             return true;

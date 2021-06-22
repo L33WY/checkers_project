@@ -83,10 +83,6 @@ public class GameController {
         return pawn;
     }
 
-    private void createKing(Pawn pawn) {
-        King king = new King(pawn);
-    }
-
     public Tile[][] getBoard() {
         return board;
     }

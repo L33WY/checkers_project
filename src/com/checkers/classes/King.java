@@ -6,23 +6,18 @@ import javafx.scene.paint.Color;
 public class King extends Pawn{
 
 
-    public King(PawnType type, int x, int y, GameController gameController) {
+    public King(PawnType type, int x, int y, GameController gameController, int oldX, int oldY) {
         super(type, x, y, gameController);
-    }
 
-    public King(Pawn pawn) {
-        super(pawn);
+        this.setOldX(oldX);
+        this.setOldY(oldY);
         this.setKingColor();
-        this.setOldX(pawn.getOldX());
-        this.setOldY(pawn.getOldY());
-        this.setNewX(pawn.getNewX());
-        this.setNewY(pawn.getNewY());
 
         this.setKing(true);
 
         this.setOnMouseClicked(event ->{
             System.out.println("jest krolem");
-        });
+            });
 
     }
 
