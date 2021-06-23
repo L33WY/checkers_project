@@ -6,7 +6,6 @@ import com.checkers.classes.Pawn;
 import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static com.checkers.controllers.GameController.TILE_SIZE;
