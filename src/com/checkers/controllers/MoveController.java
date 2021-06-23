@@ -46,7 +46,6 @@ public class MoveController {
         System.out.println("NewY: " + CURENT_PAWN.getNewY());
 
         System.out.println(pawn.getType());
-        System.out.println(x + " | " + y);
 
         int yField = y + pawn.getMoveDir();
         int xRightField = x + 1;
@@ -81,12 +80,6 @@ public class MoveController {
         CURENT_PAWN = pawn;
         pawn.setSelectedPawn(pawn);
 
-        System.out.println("OldX: " + CURENT_PAWN.getOldX());
-        System.out.println("OldY: " + CURENT_PAWN.getOldY());
-        System.out.println("NewX: " + CURENT_PAWN.getNewX());
-        System.out.println("NewY: " + CURENT_PAWN.getNewY());
-
-
         int yField = y + pawn.getMoveDir();
         int xField = x + xDirection;
 
@@ -118,27 +111,33 @@ public class MoveController {
         int xLeft = oldX -1;
         int xRight = oldX +1;
 
+        boolean bl = false;
+        boolean br = false;
+        boolean tl = false;
+        boolean tr = false;
 
-        //Y TOP
+        //DIRECTION: Y BOTTOM
         for (int yTop = oldY+1; checkValueY(yTop); yTop++) {
-            //TOP LEFT
+            //BOTTOM LEFT
             if (checkValueX(xLeft) && checkValueY(yTop)) {
-                if (board[xLeft][yTop].hasPawn()){
-//                    validatePawn(xLeftField, yField, -1);
-                    System.out.println("Pole zajete" + xLeft + yTop);
-                } else {
+                if (board[xLeft][yTop].hasPawn() && !bl){
+                    validatePawn(xLeft, yTop, oldY, -1);
+                    bl = true;
+
+                } if (!bl) {
                     board[xLeft][yTop].showAvalibleField();
                     PREVIOUS_TILES.add(board[xLeft][yTop]);
                 }
                 xLeft--;
             }
 
-            //TOP RIGHT
+            //BOTTOM RIGHT
             if (checkValueX(xRight) && checkValueY(yTop)) {
-                if (board[xRight][yTop].hasPawn()){
-//                    validatePawn(xLeftField, yField, -1);
-                    System.out.println("Pole zajete" + xRight + yTop);
-                } else {
+                if (board[xRight][yTop].hasPawn() && !br){
+                    validatePawn(xRight, yTop, oldY, 1);
+                    br = false;
+
+                } if (!br) {
                     board[xRight][yTop].showAvalibleField();
                     PREVIOUS_TILES.add(board[xRight][yTop]);
                 }
@@ -146,35 +145,60 @@ public class MoveController {
             }
         }
 
-        //Y BOTTOM
+        //DIRECTION: Y TOP
         xLeft = oldX - 1;
         xRight = oldX + 1;
 
         for (int yBottom = oldY-1; checkValueY(yBottom); yBottom--) {
-            //BOTTOM LEFT
+            //TOP LEFT
             if (checkValueX(xLeft) && checkValueY(yBottom)) {
-                if (board[xLeft][yBottom].hasPawn()){
-//                    validatePawn(xLeftField, yField, -1);
-                    System.out.println("Pole zajete" + xLeft + yBottom);
-                } else {
+                if (board[xLeft][yBottom].hasPawn() && !tl){
+                    validatePawn(xLeft, yBottom, oldY, -1);
+                    tl = true;
+
+                } if (!tl) {
                     board[xLeft][yBottom].showAvalibleField();
                     PREVIOUS_TILES.add(board[xLeft][yBottom]);
                 }
                 xLeft--;
             }
 
-            //BOTTOM RIGHT
+            //TOP RIGHT
             if (checkValueX(xRight) && checkValueY(yBottom)) {
-                if (board[xRight][yBottom].hasPawn()){
-//                    validatePawn(xLeftField, yField, -1);
-                    System.out.println("Pole zajete" + xRight + yBottom);
-                } else {
+                if (board[xRight][yBottom].hasPawn() && !tr){
+                    validatePawn(xRight, yBottom, oldY, 1);
+                    tr = false;
+
+                } if (!tr) {
                     board[xRight][yBottom].showAvalibleField();
                     PREVIOUS_TILES.add(board[xRight][yBottom]);
                 }
                 xRight++;
             }
         }
+    }
+
+
+    public void showAvalibleKingMoves(int x, int y, int xDirection, int yDirection) {
+
+        if (pawn.getSelectedPawn() != pawn) {
+            hidePreviousFields();
+        }
+        CURENT_PAWN = pawn;
+        pawn.setSelectedPawn(pawn);
+
+        int yField = y + yDirection;
+        int xField = x + xDirection;
+
+        if (checkValueX(xField) && checkValueY(yField)) {
+            if (board[xField][yField].hasPawn()) {
+                validatePawn(xField, yField, +1, xDirection);
+            } else {
+                board[xField][yField].showAvalibleField();
+                PREVIOUS_TILES.add(board[xField][yField]);
+            }
+        }
+
     }
 
 
@@ -254,6 +278,27 @@ public class MoveController {
                 }
             }
         }
+    }
+
+    private void validatePawn(int x, int y, int oldY, int xDirection) {
+        int yDirection =0;
+
+        if (oldY - y > 0) {yDirection = -1;}
+        if (oldY - y < 0) {yDirection = 1;}
+
+        if (checkValueX(x + xDirection) && checkValueY(y + yDirection)) {
+            if (CURENT_PAWN.getType() != board[x][y].getPawn().getType()) {
+
+                if (board[x + xDirection][y +yDirection].hasPawn()) {
+                    System.out.println("Next Pionek zajety");
+                } else {
+                    TARGET_TILES.add(board[x][y]);
+                    System.out.println("Pionek do odstrzalu: " + x + " | " + y);
+                    this.showAvalibleKingMoves(x, y, xDirection, yDirection);
+                }
+            }
+        }
+
     }
 
 
