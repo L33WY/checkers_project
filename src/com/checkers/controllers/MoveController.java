@@ -135,7 +135,7 @@ public class MoveController {
             if (checkValueX(xRight) && checkValueY(yTop)) {
                 if (board[xRight][yTop].hasPawn() && !br){
                     validatePawn(xRight, yTop, oldY, 1);
-                    br = false;
+                    br = true;
 
                 } if (!br) {
                     board[xRight][yTop].showAvalibleField();
@@ -167,7 +167,7 @@ public class MoveController {
             if (checkValueX(xRight) && checkValueY(yBottom)) {
                 if (board[xRight][yBottom].hasPawn() && !tr){
                     validatePawn(xRight, yBottom, oldY, 1);
-                    tr = false;
+                    tr = true;
 
                 } if (!tr) {
                     board[xRight][yBottom].showAvalibleField();
@@ -285,6 +285,7 @@ public class MoveController {
 
         if (oldY - y > 0) {yDirection = -1;}
         if (oldY - y < 0) {yDirection = 1;}
+
 
         if (checkValueX(x + xDirection) && checkValueY(y + yDirection)) {
             if (CURENT_PAWN.getType() != board[x][y].getPawn().getType()) {
