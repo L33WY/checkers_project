@@ -1,12 +1,9 @@
 package com.checkers;
 
-import com.checkers.classes.Tile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import com.checkers.controllers.GameController;
 
@@ -30,7 +27,4 @@ public class Main extends Application {
         launch(args);
     }
 
-    static Group getPawnGroup(GameController gameController) {
-        return gameController.getPawnGroup();
-    }
 }

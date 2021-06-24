@@ -5,8 +5,13 @@ import com.checkers.classes.King;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.checkers.controllers.GameController.TILE_SIZE;
 
@@ -43,8 +48,6 @@ public class MoveController {
         int yField = y + pawn.getMoveDir();
         int xRightField = x + 1;
         int xLeftField = x - 1;
-
-        System.out.println("Obecna poozycja: x: " + x + " y: " + y);
 
         if (checkValueX(xLeftField) && checkValueY(yField)) {
             if (board[xLeftField][yField].hasPawn()){
@@ -253,6 +256,7 @@ public class MoveController {
             for (Tile targetTile : TARGET_TILES) {
                 if (targetTile.getPawn().getOldX() == xField+1 || targetTile.getPawn().getOldX() == xField-1) {
 
+                    CURENT_PAWN.getGameController().getPawnsOnBoard().remove(targetTile.getPawn());
                     CURENT_PAWN.getGameController().getPawnGroup().getChildren().remove(targetTile.getPawn());
                     targetTile.removePawn();
                 }
@@ -266,16 +270,19 @@ public class MoveController {
                 //Removing old pawn
                 king.getGameController().getPawnGroup().getChildren().remove(king.getBoard()[king.getOldX()][king.getOldY()].getPawn());
                 king.getBoard()[king.getOldX()][king.getOldY()].removePawn();
+                CURENT_PAWN.getGameController().getPawnsOnBoard().remove(CURENT_PAWN);
 
                 //Placing king pawn on board
                 CURENT_PAWN = king;
                 CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldX()].setPawn(king);
                 CURENT_PAWN.getGameController().getPawnGroup().getChildren().add(king);
+                CURENT_PAWN.getGameController().getPawnsOnBoard().add(CURENT_PAWN);
 
             }
 
             hidePreviousFields();
         }
+        CURENT_PAWN.getGameController().checkGameStatus(CURENT_PAWN);
     }
 
     private void validatePawn(int x, int y, int xDirection) {
