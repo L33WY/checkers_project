@@ -31,6 +31,8 @@ public class MoveController {
     public MoveController() {
     }
 
+    // Show moves for pawn
+
     public void showAvalibleMoves(int x, int y) {
 
         if (pawn.getSelectedPawn() != pawn) {
@@ -68,7 +70,15 @@ public class MoveController {
                 PREVIOUS_TILES.add(board[xRightField][yField]);
             }
         }
+        int yBack;
+        if (yField > y) {
+            yBack = -1;
+        } else {
+            yBack = 1;
+        }
 
+        showBackwardMoves(x, y, -1, yBack);
+        showBackwardMoves(x, y, 1, yBack);
     }
 
     public void showAvalibleMoves(int x, int y, int xDirection) {
@@ -92,6 +102,24 @@ public class MoveController {
         }
 
     }
+
+    private void showBackwardMoves(int x, int y, int xDirection, int yDirection) {
+        if (pawn.getSelectedPawn() != pawn) {
+            hidePreviousFields();
+        }
+        CURENT_PAWN = pawn;
+        pawn.setSelectedPawn(pawn);
+
+        int yField = y + yDirection;
+        int xField = x + xDirection;
+
+        if (checkValueX(xField) && checkValueY(yField)) {
+            if (board[xField][yField].hasPawn()) {
+                validatePawn(xField, yField, +1, xDirection);
+            }
+        }
+    }
+
 
     //Show moves for king
     public void showAvalibleKingMoves(int oldX, int oldY) {
@@ -280,10 +308,9 @@ public class MoveController {
     }
 
     private void validatePawn(int x, int y, int oldY, int xDirection) {
-        int yDirection =0;
-
-        if (oldY - y > 0) {yDirection = -1;}
-        if (oldY - y < 0) {yDirection = 1;}
+        int yDirection = getBackwardYDir(oldY, y);
+//        if (oldY - y > 0) {yDirection = -1;}
+//        if (oldY - y < 0) {yDirection = 1;}
 
 
         if (checkValueX(x + xDirection) && checkValueY(y + yDirection)) {
@@ -299,6 +326,12 @@ public class MoveController {
             }
         }
 
+    }
+
+    private int getBackwardYDir(int oldY, int y) {
+        if (oldY - y > 0) return -1;
+        if (oldY - y < 0) return 1;
+        else return 0;
     }
 
 
