@@ -16,7 +16,6 @@ public class MoveController {
 
     private Pawn pawn;
     private Tile[][] board;
-//    public static Tile PREVIOUS_TILES[];
     public static ArrayList <Tile> PREVIOUS_TILES = new ArrayList<>();
     public static Pawn CURENT_PAWN;
     public static ArrayList<Tile> TARGET_TILES = new ArrayList<>();
@@ -40,13 +39,6 @@ public class MoveController {
         }
         CURENT_PAWN = pawn;
         pawn.setSelectedPawn(pawn);
-
-        System.out.println("OldX: " + CURENT_PAWN.getOldX());
-        System.out.println("OldY: " + CURENT_PAWN.getOldY());
-        System.out.println("NewX: " + CURENT_PAWN.getNewX());
-        System.out.println("NewY: " + CURENT_PAWN.getNewY());
-
-        System.out.println(pawn.getType());
 
         int yField = y + pawn.getMoveDir();
         int xRightField = x + 1;
@@ -130,10 +122,6 @@ public class MoveController {
         CURENT_PAWN = pawn;
         pawn.setSelectedPawn(pawn);
 
-        System.out.println("OldX: " + CURENT_PAWN.getOldX());
-        System.out.println("OldY: " + CURENT_PAWN.getOldY());
-        System.out.println("NewX: " + CURENT_PAWN.getNewX());
-        System.out.println("NewY: " + CURENT_PAWN.getNewY());
 
         int xLeft = oldX -1;
         int xRight = oldX +1;
@@ -264,7 +252,6 @@ public class MoveController {
 
             for (Tile targetTile : TARGET_TILES) {
                 if (targetTile.getPawn().getOldX() == xField+1 || targetTile.getPawn().getOldX() == xField-1) {
-                    System.out.println("Usuwanie");
 
                     CURENT_PAWN.getGameController().getPawnGroup().getChildren().remove(targetTile.getPawn());
                     targetTile.removePawn();
@@ -272,7 +259,7 @@ public class MoveController {
             }
 
             if (isReadyForKing() && (!CURENT_PAWN.isKing())) {
-                System.out.println("usuwanie pod krola");
+
                 //Creating new king pawn
                 King king = new King(CURENT_PAWN.getType(), CURENT_PAWN.getNewX(), CURENT_PAWN.getNewY(),
                         CURENT_PAWN.getGameController(), CURENT_PAWN.getOldX(), CURENT_PAWN.getOldY());
@@ -285,7 +272,6 @@ public class MoveController {
                 CURENT_PAWN.getBoard()[CURENT_PAWN.getOldX()][CURENT_PAWN.getOldX()].setPawn(king);
                 CURENT_PAWN.getGameController().getPawnGroup().getChildren().add(king);
 
-                System.out.println("koniec tworzenia krola");
             }
 
             hidePreviousFields();
@@ -297,10 +283,9 @@ public class MoveController {
             if (CURENT_PAWN.getType() != board[x][y].getPawn().getType()) {
 
                 if (board[x + xDirection][y + CURENT_PAWN.getMoveDir()].hasPawn()) {
-                    System.out.println("Next pionek zajety");
+
                 } else {
                     TARGET_TILES.add(board[x][y]);
-                    System.out.println("Pionek do odstrzalu: " + x + " | " + y);
                     this.showAvalibleMoves(x, y, xDirection);
                 }
             }
@@ -309,18 +294,12 @@ public class MoveController {
 
     private void validatePawn(int x, int y, int oldY, int xDirection) {
         int yDirection = getBackwardYDir(oldY, y);
-//        if (oldY - y > 0) {yDirection = -1;}
-//        if (oldY - y < 0) {yDirection = 1;}
-
 
         if (checkValueX(x + xDirection) && checkValueY(y + yDirection)) {
             if (CURENT_PAWN.getType() != board[x][y].getPawn().getType()) {
 
-                if (board[x + xDirection][y +yDirection].hasPawn()) {
-                    System.out.println("Next Pionek zajety");
-                } else {
+                if (!board[x + xDirection][y +yDirection].hasPawn()) {
                     TARGET_TILES.add(board[x][y]);
-                    System.out.println("Pionek do odstrzalu: " + x + " | " + y);
                     this.showAvalibleKingMoves(x, y, xDirection, yDirection);
                 }
             }
@@ -336,8 +315,6 @@ public class MoveController {
 
 
     private boolean isReadyForKing() {
-        System.out.println("CURENT PAWN POSITION: " + CURENT_PAWN.getNewX() + CURENT_PAWN.getNewY());
-        System.out.println(PawnType.GREEN == CURENT_PAWN.getType());
         if (CURENT_PAWN.getType() == PawnType.GREEN && CURENT_PAWN.getNewY() == 0) {
             return true;
         } if (CURENT_PAWN.getType() == PawnType.RED && CURENT_PAWN.getNewY() == 7) {
