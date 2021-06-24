@@ -12,10 +12,10 @@ import static com.checkers.controllers.GameController.TILE_SIZE;
 
 public class Pawn extends StackPane {
 
-    private PawnType type;
+    private final PawnType type;
     private final Ellipse pawn = new Ellipse(TILE_SIZE * 0.3125, TILE_SIZE * 0.26);
-    private GameController gameController;
-    private MoveController moveController;
+    private final GameController gameController;
+    private final MoveController moveController;
     private int oldX, oldY, newX, newY;
     private boolean isKing = false;
 

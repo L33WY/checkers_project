@@ -1,12 +1,14 @@
 package com.checkers.controllers;
 
-import com.checkers.classes.King;
 import com.checkers.classes.Pawn;
 import com.checkers.classes.PawnType;
 import com.checkers.classes.Tile;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class GameController {
@@ -15,19 +17,17 @@ public class GameController {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
 
-    private Group tileGroup = new Group();
-    private Group pawnGroup = new Group();
-//    static Group pawnGroup = new Group();
+    private final Group tileGroup = new Group();
+    private final Group pawnGroup = new Group();
 
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private ArrayList<Pawn> pawnsOnBoard = new ArrayList<>();
+
+    private final Tile[][] board = new Tile[WIDTH][HEIGHT];
 
     private Pawn selectedPawn = null;
-    int testPawnNumber = 0;
     int testRep = 0;
 
-    public GameController() {
-        this.createContent();
-    }
+    public GameController() { this.createContent(); }
 
 
     public Parent createContent() {
@@ -43,10 +43,8 @@ public class GameController {
     }
 
     private void createBoard() {
-        System.out.println("Powtorzenia petli : " + ++ testRep);
         for (int x = 0; x < HEIGHT; x++) {
             for (int y = 0; y < WIDTH; y++) {
-                System.out.println(x + " T " + y);
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
 
                 this.board[x][y] = tile;
@@ -58,17 +56,14 @@ public class GameController {
 
                 if (y <= 2 && (x + y) % 2 != 0) {
                     pawn = this.createPawn(PawnType.RED, x, y);
-//                    System.out.println(test++);
                 }
 
                 if (y >= 5 && (x + y) % 2 != 0) {
                     pawn = this.createPawn(PawnType.GREEN, x, y);
-//                    System.out.println(test++);
                 }
 
                 if (pawn != null) {
                     tile.setPawn(pawn);
-                    System.out.println("Pionkik: " + ++ testPawnNumber);
                     this.pawnGroup.getChildren().add(pawn);
                 }
 
@@ -79,7 +74,7 @@ public class GameController {
 
     private Pawn createPawn(PawnType type, int x, int y) {
         Pawn pawn = new Pawn(type , x, y, this);
-
+        this.pawnsOnBoard.add(pawn);
         return pawn;
     }
 
@@ -97,6 +92,18 @@ public class GameController {
 
     public Group getPawnGroup () {
         return this.pawnGroup;
+    }
+
+    public ArrayList<Pawn> getPawnsOnBoard() {
+        return pawnsOnBoard;
+    }
+
+        public void checkGameStatus (Pawn pawn) {
+        List<Pawn> enemyPawns =
+                pawn.getGameController().getPawnsOnBoard().stream().filter(p -> p.getType() != pawn.getType()).collect(Collectors.toList());
+        if (enemyPawns.isEmpty()) {
+            System.out.println("WYGRYWA: " + pawn.getType());
+        }
     }
 
 }

@@ -67,8 +67,4 @@ public class Tile extends Rectangle {
         isAvalible = avalible;
     }
 
-    // Interactive section
-
-
-
 }
